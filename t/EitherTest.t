@@ -21,6 +21,15 @@ sub divide_or_not {
     return Either::success($res);
 }
 
+sub other_calc {
+    my $number = shift;
+    my $first_step = divide_or_not($number - 1);
+    if ($first_step->is_valid) {
+        return Either::success($first_step + 2);
+    }
+    return $first_step;
+}
+
 describe "Either class" => sub {
     it "wraps valid stuff" => sub {
         my $res = always_succeeds(42);
@@ -43,6 +52,14 @@ describe "An operation" => sub {
     };
     it "can fail" => sub {
         my $res = divide_or_not(0);
+        ok(!$res->is_valid);
+    };
+    it "can succeed with multiple applications" => sub {
+        my $res = other_calc(43);
+        ok($res->is_valid);
+    };
+    it "can fail with multiple applications" => sub {
+        my $res = other_calc(1);
         ok(!$res->is_valid);
     };
 };
