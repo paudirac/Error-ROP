@@ -25,7 +25,7 @@ sub other_calc {
     my $number = shift;
     my $first_step = divide_or_not($number - 1);
     if ($first_step->is_valid) {
-        return Either::success($first_step + 2);
+        return Either::success($first_step->value + 2);
     }
     return $first_step;
 }
@@ -60,6 +60,21 @@ describe "An operation" => sub {
     };
     it "can fail with multiple applications" => sub {
         my $res = other_calc(1);
+        ok(!$res->is_valid);
+    };
+};
+
+describe "a block" => sub {
+    it "can succeed" => sub {
+        my $res = Either::either { 42 / 2 };
+        ok($res->is_valid);
+    };
+    it "can succeed and have a value" => sub {
+        my $res = Either::either { 42 / 2 };
+        ok($res->is_valid && $res->value == 21);
+    };
+    it "can fail" => sub {
+        my $res = Either::either { 42 / 0 };
         ok(!$res->is_valid);
     };
 };
