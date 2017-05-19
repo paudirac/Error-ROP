@@ -79,5 +79,17 @@ describe "a block" => sub {
     };
 };
 
+describe "eithers" => sub {
+    it "can be concatenated" => sub {
+        my $res = Either::either { 40 / 2 };
+        my $res2 = $res->then { print "hello"; };
+        #ok($res2->is_valid && $res2->value == 10);
+        fail;
+    };
+    it "shorcut when failed" => sub {
+        fail;
+    };
+};
+
 runtests unless caller;
 1;
