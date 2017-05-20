@@ -1,5 +1,8 @@
 package Either;
 use Imp::Either;
+use Exporter qw/import/;
+
+@EXPORT_OK = qw/success error either/;
 
 sub success {
     return Imp::Either->new(value => shift);

@@ -1,12 +1,12 @@
 use Test::Spec;
-use Either;
+use Either qw/success error/;
 
 sub always_succeeds {
-    return Either::success(shift);
+    return success(shift);
 }
 
 sub always_fails {
-    return Either::error("You don't have permissions.");
+    return error("You don't have permissions.");
 }
 
 sub divide_or_not {
@@ -16,16 +16,16 @@ sub divide_or_not {
         $res = 42 / $number;
     };
     if ($@) {
-        return Either::error($@);
+        return error($@);
     }
-    return Either::success($res);
+    return success($res);
 }
 
 sub other_calc {
     my $number = shift;
     my $first_step = divide_or_not($number - 1);
     if ($first_step->is_valid) {
-        return Either::success($first_step->value + 2);
+        return success($first_step->value + 2);
     }
     return $first_step;
 }
@@ -64,20 +64,6 @@ describe "An operation" => sub {
     };
 };
 
-describe "a block" => sub {
-    it "can succeed" => sub {
-        my $res = Either::either { 42 / 2 };
-        ok($res->is_valid);
-    };
-    it "can succeed and have a value" => sub {
-        my $res = Either::either { 42 / 2 };
-        ok($res->is_valid && $res->value == 21);
-    };
-    it "can fail" => sub {
-        my $res = Either::either { 42 / 0 };
-        ok(!$res->is_valid);
-    };
-};
 
 runtests unless caller;
 1;

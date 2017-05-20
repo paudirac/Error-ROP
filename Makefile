@@ -24,6 +24,9 @@ HELP_FUN = \
 help: ##@other Show this help.
 	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
 
+test:
+	carton exec -- prove --color --verbose -I local -I lib -I t/lib
+
 test-single: ## run test over $testfile
 	carton exec -- prove --color --verbose -I local -I lib -I t/lib ${testfile}
 
