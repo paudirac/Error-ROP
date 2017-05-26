@@ -1,6 +1,5 @@
 use Test::Spec;
 use Either qw(either);
-#use PerlX::MethodCallWithBlock;
 
 describe "then" => sub {
 
