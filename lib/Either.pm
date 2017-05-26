@@ -29,4 +29,11 @@ sub bind {
     return $either->is_valid ? either { $fn->($either->value) } : $either;
 }
 
+sub kk (&) {
+    my $code = \&{shift @_};
+    local $_ = 42;
+    return (sub { $code->($_); })->();
+}
+
+
 1;
