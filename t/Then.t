@@ -20,11 +20,17 @@ describe "then" => sub {
         my $res = either { 40 / 2 };
         my $res2 = $res->then(
             "Can't divide" => sub { $_ / 2 },
-            "spy" => sub { print STDERR "\nspy:" . $_ . "\n"; return $_ },
             "Can't multiply" => sub { $_ * 4 },
-            "spy2" => sub { print STDERR "\nspy2:" . $_ . "\n"; return $_ },
             "Can't sum" => sub { $_ + 2 });
-        #ok($res2->is_valid && $res2->value == 42);
+        ok($res2->is_valid && $res2->value == 42);
+    };
+
+    it "can be chained individually" => sub {
+        my $res = either { 40 / 2 };
+        my $res2 = $res
+            ->then("Can't divide" => sub { $_ / 2 })
+            ->then("Can't multiply" => sub { $_ * 4 })
+            ->then("Can't sum" => sub { $_ + 2 });
         is($res2->value, 42);
     };
 
@@ -36,6 +42,8 @@ describe "then" => sub {
             "Can't sum" => sub { $_ + 2 });
         ok(!$res2->is_valid && $res2->error eq "Can't divide");
     };
+
+    # either { 40 / 2 } then { $_ / 0 } then { printar($_); $_ }
 
 };
 
