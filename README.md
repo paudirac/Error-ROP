@@ -16,12 +16,12 @@ Use the `either` function as a substitute of `eval` and then
 chain your calls with `then`, like in:
 
 ```perl
-my $res = either { 40 / 2 };
+my $res = either { 40 / 0 };
 my $res2 = $res
   ->then("Can't divide" => sub { $_ / 2 })
   ->then("Can't multiply" => sub { $_ * 4 })
   ->then("Can't sum" => sub { $_ + 2 });
 ```
 
-To see more detailed info, look (the tests)[t/Then.t] for the `then`.
-You can also use it (inside a Moose class)[t/Example.t].
+To see more detailed info, look [the tests](t/Then.t) for the `then`.
+You can also use it [inside a Moose class](t/Example.t).
