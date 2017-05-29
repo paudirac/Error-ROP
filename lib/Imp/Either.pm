@@ -23,7 +23,8 @@ sub then {
                 $code->();
             };
             if ($@) {
-                return Imp::Either->new(error => $err);
+                my $msg = length $err > 0 && $err ne 'undef' ? $err : $@;
+                return Imp::Either->new(error => $msg);
             }
             $either = Imp::Either->new(value => $res);
         }
