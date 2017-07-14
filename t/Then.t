@@ -59,6 +59,26 @@ describe "then" => sub {
           "Can't sum" => sub { $_ + 2 });
       ok(index($res2->failure, "Illegal division by zero at") != -1);
     };
+ 	
+    it "accepts also lists" => sub {
+      my $res = either { 40 / 2 };
+      my $res2 = $res->then(
+          sub { $_ / 0 },
+          sub { $_ * 4 },
+          sub { $_ + 2 });
+      ok(index($res2->failure, "Illegal division by zero at") != -1);
+    };
+
+    it "accepts also coderefs" => sub {
+      my $res = either { 40 / 2 };
+      my $res2 = $res
+        ->then(sub { $_ / 0 })
+        ->then(sub { $_ * 4 })
+        ->then(sub { $_ + 2 });
+      ok(index($res2->failure, "Illegal division by zero at") != -1);
+    };
+
+
 
     # either { 40 / 2 } then { $_ / 0 } then { printar($_); $_ }
 
