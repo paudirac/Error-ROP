@@ -36,4 +36,4 @@ $ make -f Makefile.docker test
 ```
 
 This should construct an image with the necessary dependencies, copy
-the source into the image an run the tests.
+the source into the image and run the tests.
