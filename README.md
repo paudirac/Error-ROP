@@ -25,3 +25,15 @@ my $res2 = $res
 
 To see more detailed info, look [the tests](t/Then.t) for the `then`.
 You can also use it [inside a Moose class](t/Example.t).
+
+## Running the tests
+
+A `Dockerfile` is provided in order to run the tests without needing
+any perl in your system. Just run:
+
+```shell
+$ make -f Makefile.docker test
+```
+
+This should construct an image with the necessary dependencies, copy
+the source into the image an run the tests.

@@ -1,0 +1,11 @@
+IMAGE=either:latest
+build-image:
+	docker build -t $(IMAGE) .
+
+test: build-image
+	docker run --rm $(IMAGE) make -f Makefile test
+
+shell: build-image
+	docker run --rm -it $(IMAGE) bash
+
+.PHONY: build-image test
