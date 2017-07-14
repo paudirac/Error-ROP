@@ -39,25 +39,25 @@ describe "then" => sub {
             "Can't divide" => sub { $_ / 0 },
             "Can't multiply" => sub { $_ * 4 },
             "Can't sum" => sub { $_ + 2 });
-        ok(!$res2->is_valid && $res2->error eq "Can't divide");
+        ok(!$res2->is_valid && $res2->failure eq "Can't divide");
     };
 
-    it "default to exceptions when not given error text" => sub {
+    it "default to exceptions when not given failure text" => sub {
       my $res = either { 40 / 2 };
       my $res2 = $res->then(
           undef => sub { $_ / 0 },
           "Can't multiply" => sub { $_ * 4 },
           "Can't sum" => sub { $_ + 2 });
-      ok(index($res2->error, "Illegal division by zero at") != -1);
+      ok(index($res2->failure, "Illegal division by zero at") != -1);
     };
 
-    it "default to exceptions when given empty error text" => sub {
+    it "default to exceptions when given empty failure text" => sub {
       my $res = either { 40 / 2 };
       my $res2 = $res->then(
           "" => sub { $_ / 0 },
           "Can't multiply" => sub { $_ * 4 },
           "Can't sum" => sub { $_ + 2 });
-      ok(index($res2->error, "Illegal division by zero at") != -1);
+      ok(index($res2->failure, "Illegal division by zero at") != -1);
     };
 
     # either { 40 / 2 } then { $_ / 0 } then { printar($_); $_ }

@@ -2,14 +2,14 @@ package Either;
 use Imp::Either;
 use Exporter qw/import/;
 
-our @EXPORT_OK = qw/success error either bind/;
+our @EXPORT_OK = qw/success failure either bind/;
 
 sub success {
     return Imp::Either->new(value => shift);
 }
 
-sub error {
-    return Imp::Either->new(error => shift);
+sub failure {
+    return Imp::Either->new(failure => shift);
 }
 
 sub either (&) {
@@ -18,7 +18,7 @@ sub either (&) {
     my $res = eval {
         $code->(@_);
     };
-    return error($@) if $@;
+    return failure($@) if $@;
     return success($res);
 }
 

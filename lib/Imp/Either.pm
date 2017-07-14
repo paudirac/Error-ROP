@@ -2,10 +2,10 @@ package Imp::Either;
 use Moose;
 
 has value => (is => 'ro', required => 0, default => undef);
-has error => (is => 'ro', required => 0, default => '');
+has failure => (is => 'ro', required => 0, default => '');
 
 sub is_valid {
-    return shift->error eq '';
+    return shift->failure eq '';
 }
 
 sub then {
@@ -24,7 +24,7 @@ sub then {
             };
             if ($@) {
                 my $msg = length $err > 0 && $err ne 'undef' ? $err : $@;
-                return Imp::Either->new(error => $msg);
+                return Imp::Either->new(failure => $msg);
             }
             $either = Imp::Either->new(value => $res);
         }

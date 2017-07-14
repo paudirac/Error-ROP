@@ -1,12 +1,12 @@
 use Test::Spec;
-use Either qw/success error/;
+use Either qw/success failure/;
 
 sub always_succeeds {
     return success(shift);
 }
 
 sub always_fails {
-    return error("You don't have permissions.");
+    return failure("You don't have permissions.");
 }
 
 sub divide_or_not {
@@ -16,7 +16,7 @@ sub divide_or_not {
         $res = 42 / $number;
     };
     if ($@) {
-        return error($@);
+        return failure($@);
     }
     return success($res);
 }
@@ -39,7 +39,7 @@ describe "Either class" => sub {
         my $res = always_succeeds(42);
         is(42, $res->value);
     };
-    it "can have an error" => sub {
+    it "can have an failure" => sub {
         my $res = always_fails(42);
         ok(!$res->is_valid);
     };
