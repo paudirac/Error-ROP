@@ -1,4 +1,5 @@
 IMAGE=either:latest
+VERSION=0.01
 build-image:
 	docker build -t $(IMAGE) .
 
@@ -9,6 +10,6 @@ shell: build-image
 	docker run --rm -it $(IMAGE) bash
 
 dist: build-image
-	docker run --rm $(IMAGE) make -f Makefile dist
+	docker run --rm $(IMAGE) make -f Makefile dist && cat Either-$(VERSION).tar.gz > Either-$(VERSION).tar.gz
 
 .PHONY: build-image test dist
