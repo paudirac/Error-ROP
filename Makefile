@@ -38,3 +38,7 @@ test-single-watch: ## run test over $testfile continuously
 
 devel-deps:
 	carton install
+
+dist:
+	carton exec dzil smoke
+	carton exec dzil build

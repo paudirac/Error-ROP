@@ -8,4 +8,7 @@ test: build-image
 shell: build-image
 	docker run --rm -it $(IMAGE) bash
 
-.PHONY: build-image test
+dist: build-image
+	docker run --rm $(IMAGE) make -f Makefile dist
+
+.PHONY: build-image test dist
