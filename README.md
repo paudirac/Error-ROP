@@ -56,6 +56,6 @@ Please report bugs to: [https://github.com/paudirac/Perl-Either/issues](https://
 
 # COPYRIGHT and LICENSE
 
-Copyright (c) 2017 by Pau Cervera i Badia
+Copyright (c) 2017 by CAPSiDE
 
 This code is distributed under the Apache 2 License. The full text of the license can be found in the LICENSE file included with this module.
