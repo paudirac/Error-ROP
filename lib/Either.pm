@@ -1,16 +1,16 @@
 package Either;
-use Imp::Either;
+use Either::Imp;
 use Exporter qw/import/;
 
 our @EXPORT_OK = qw/success failure either bind/;
 our $VERSION = '0.01';
 
 sub success {
-    return Imp::Either->new(value => shift);
+    return Either::Imp->new(value => shift);
 }
 
 sub failure {
-    return Imp::Either->new(failure => shift);
+    return Either::Imp->new(failure => shift);
 }
 
 sub either (&) {

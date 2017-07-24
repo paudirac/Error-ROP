@@ -1,4 +1,4 @@
-package Imp::Either;
+package Either::Imp;
 use Moose;
 
 has value => (is => 'ro', required => 0, default => undef);
@@ -24,9 +24,9 @@ sub _then_hash {
             };
             if ($@) {
                 my $msg = length $err > 0 && $err ne 'undef' ? $err : $@;
-                return Imp::Either->new(failure => $msg);
+                return Either::Imp->new(failure => $msg);
             }
-            $either = Imp::Either->new(value => $res);
+            $either = Either::Imp->new(value => $res);
         }
     }
 
@@ -47,9 +47,9 @@ sub _then_list {
                 $code->();
             };
             if ($@) {
-                return Imp::Either->new(failure => $@);
+                return Either::Imp->new(failure => $@);
             }
-            $either = Imp::Either->new(value => $res);
+            $either = Either::Imp->new(value => $res);
         }
     }
 
