@@ -1,7 +1,10 @@
 requires 'Moose';
 
-on 'develop' => sub {
+on test => sub {
   requires 'Test::Spec';
+};
+
+on 'develop' => sub {
   requires 'App::Prove::Watch';
   requires 'Pod::Markdown';
   requires 'Dist::Zilla';
