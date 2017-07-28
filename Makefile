@@ -39,6 +39,9 @@ test-single-watch: ## run test over $testfile continuously
 devel-deps:
 	carton install
 
-dist:
+readme:
+	carton exec perl -MPod::Markdown -e 'Pod::Markdown->new->filter(@ARGV)' lib/Either.pm > README.md
+
+dist: readme
 	carton exec dzil smoke
 	carton exec dzil build
