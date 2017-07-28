@@ -78,9 +78,11 @@ describe "then" => sub {
       ok(index($res2->failure, "Illegal division by zero at") != -1);
     };
 
-
-
-    # either { 40 / 2 } then { $_ / 0 } then { printar($_); $_ }
+    xit "patata" => sub {
+        my $res = either { 40 / 2 };
+        my $res2 = $res->patata(sub { $_ / 2 });
+        is($res2->value, 10);
+    };
 
 };
 

@@ -1,4 +1,5 @@
 use Test::Spec;
+use Either qw(either);
 
 package MooseSut {
   use Either qw(either);
@@ -72,6 +73,33 @@ describe "MooseSut" => sub {
     ok(!$res->is_valid);
   };
 
+};
+
+sub compute_meaning {
+    my $divisor = shift;
+    return either { 80 / $divisor }
+           ->then(sub { $_ + 2 });
+};
+
+describe "When life" => sub {
+    describe "has meaning," => sub {
+        it "the meaning is 42" => sub {
+            my $meaning = compute_meaning(2);
+            ok($meaning->is_valid && $meaning->value == 42);
+        };
+    };
+    describe "don't has meaning" => sub {
+        it "the meaning is not valid" => sub {
+            my $meaning = compute_meaning(0);
+           ok(!$meaning->is_valid);
+        };
+    };
+    describe "don't has meaning" => sub {
+        it "the meaning is not valid and you know why" => sub {
+            my $meaning = compute_meaning(0);
+            ok(!$meaning->is_valid && index($meaning->failure, "Illegal division by zero at") != -1);
+        };
+    };
 };
 
 runtests unless caller;

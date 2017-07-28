@@ -18,9 +18,8 @@ sub _then_hash {
         my $fn = $then_clauses[2 * $i + 1];
         if ($either->is_valid) {
             local $_ = $either->value;
-            my $code = sub { $fn->($_); };
             my $res = eval {
-                $code->();
+                $fn->($_);
             };
             if ($@) {
                 my $msg = length $err > 0 && $err ne 'undef' ? $err : $@;
@@ -42,9 +41,8 @@ sub _then_list {
         my $fn = $then_clauses[$i];
         if ($either->is_valid) {
             local $_ = $either->value;
-            my $code = sub { $fn->($_); };
             my $res = eval {
-                $code->();
+                $fn->($_);
             };
             if ($@) {
                 return Either::Imp->new(failure => $@);
@@ -56,17 +54,31 @@ sub _then_list {
     return $either;
 }
 
+sub _wrap_call_with_dollar {
+    my $either = shift;
+    my $fn = shift;
+    if ($either->is_valid) {
+        local $_ = $either->value;
+        my $res = eval {
+            $fn->($_);
+        };
+        if ($@) {
+            return Either::Imp->new(failure => $@);
+        }
+        $either = Either::Imp->new(value => $res);
+    }
+}
+
 sub then {
     my ($self, @then_clauses) = @_;
 
     if((scalar @then_clauses) % 2 == 0) {
-	$self->_then_hash(@then_clauses);
+        $self->_then_hash(@then_clauses);
     }
     else {
         $self->_then_list(@then_clauses);
     }
 }
-
 
 __PACKAGE__->meta->make_immutable;
 1;

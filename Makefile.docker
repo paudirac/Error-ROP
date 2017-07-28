@@ -12,4 +12,10 @@ shell: build-image
 dist: build-image
 	docker run --rm $(IMAGE) make -f Makefile dist && cat Either-$(VERSION).tar.gz > Either-$(VERSION).tar.gz
 
+readme: build-image
+	docker run --rm $(IMAGE) make -f Makefile readme > README.md
+
+shell: build-image
+  docker run --rm $(IMAGE) bash	
+
 .PHONY: build-image test dist

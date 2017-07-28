@@ -40,7 +40,7 @@ devel-deps:
 	carton install
 
 readme:
-	carton exec perl -MPod::Markdown -e 'Pod::Markdown->new->filter(@ARGV)' lib/Either.pm > README.md
+	@carton exec perl -MPod::Markdown -e 'Pod::Markdown->new->filter(@ARGV)' lib/Either.pm
 
 dist: readme
 	carton exec dzil smoke
