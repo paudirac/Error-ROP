@@ -35,9 +35,10 @@ sub bind {
 1;
 
 =encoding utf8
+
 =head1 NAME
 
-Error-ROP - A simple and lightweight implementation error handling library for Perl,
+Error::ROP - A simple and lightweight implementation error handling library for Perl,
 inspired in the Rop type.
 
 =head1 SYNOPSIS
