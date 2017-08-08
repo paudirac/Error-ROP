@@ -137,7 +137,7 @@ languages provide tools (generic functions and operators) that allow you to
 compose those operations by somehow overloading composition.
 
 When adopting an Either type to implement ROP in those languages, you normally use
-the C< >=> > operator to overload composition. Actually, you use it to compose
+the C< E<gt>=E<gt> > operator to overload composition. Actually, you use it to compose
 functions of the type
 
   >=> :: (a -> Either b e) -> (b -> Either c e) -> (a -> Either c e)
