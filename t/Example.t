@@ -1,15 +1,15 @@
 use Test::Spec;
-use Error::ROP qw(either);
+use Error::ROP qw(rop);
 
 package MooseSut {
-  use Error::ROP qw(either);
+  use Error::ROP qw(rop);
   use Moose;
 
   has service => (is => 'ro');
 
   sub foo {
     my $self = shift;
-    my $res = either { $self->service->baz(40); };
+    my $res = rop { $self->service->baz(40); };
     return $res
       ->then("service failed at bar" => sub { $self->_bar($_) })
       ->then('failed at frobnicate' => sub { $self->_frobnicate($_) });
@@ -77,7 +77,7 @@ describe "MooseSut" => sub {
 
 sub compute_meaning {
     my $divisor = shift;
-    return either { 80 / $divisor }
+    return rop { 80 / $divisor }
            ->then(sub { $_ + 2 });
 };
 

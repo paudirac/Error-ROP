@@ -4,7 +4,7 @@ package Error::ROP;
 use Error::ROP::Imp;
 use Exporter qw/import/;
 
-our @EXPORT_OK = qw/success failure either bind/;
+our @EXPORT_OK = qw/success failure rop bind/;
 our $VERSION = '0.01';
 
 sub success {
@@ -15,7 +15,7 @@ sub failure {
     return Error::ROP::Imp->new(failure => shift);
 }
 
-sub either (&) {
+sub rop (&) {
     my $code = shift;
 
     my $res = eval {
@@ -29,7 +29,7 @@ sub either (&) {
 sub bind {
     my $either = shift @_;
     my $fn = \&{shift @_};
-    return $either->is_valid ? either { $fn->($either->value) } : $either;
+    return $either->is_valid ? rop { $fn->($either->value) } : $either;
 }
 
 1;
@@ -38,20 +38,20 @@ sub bind {
 =head1 NAME
 
 Error-ROP - A simple and lightweight implementation error handling library for Perl,
-inspired in the Either type.
+inspired in the Rop type.
 
 =head1 SYNOPSIS
 
-    use Error::ROP qw(either);
+    use Error::ROP qw(rop);
 
-    my $meaning =  either { 80 / $divisor }->then(sub { $_ + 2 });
+    my $meaning =  rop { 80 / $divisor }->then(sub { $_ + 2 });
 
     say "The life meaning is " . $meaning->value if $meaning->is_valid;
     warn "Life has no meaning" if not $meaning->is_valid;
 
 =head1 DESCRIPTION
 
-The purpose of the C<< either >> function is to let you focus in the happy path
+The purpose of the C<< rop >> function is to let you focus in the happy path
 and provide a nice way to treat failures without filling the code
 with C<< eval >>s and C<< if >>s that always serve almost the same purpose.
 
@@ -66,18 +66,18 @@ For the sake of simplicity consider the following code
 that will fail when called with a zero argument.
 
 Following the style of the L<Railway Oriented Programming|https://fsharpforfunandprofit.com/rop/>, you wrap the part
-that could fail in a C<< either >> block and focus on programming the happy
+that could fail in a C<< rop >> block and focus on programming the happy
 path:
 
     sub compute_meaning {
         my $divisor = shift;
-        return either { 80 / $divisor }
+        return rop { 80 / $divisor }
                ->then(sub { $_ + 2 });
     };
 
 This way, the C<< compute_meaning >> function will never blow, even when
 passed in a zero argument and the computation doesn't make sense. The caller
-can check that the computation succeeded by asking the C<< either >> result
+can check that the computation succeeded by asking the C<< rop >> result
 object.
 
 When the computation succeeds, the C<< value >> property contains
@@ -96,7 +96,7 @@ error.
 
 =head2 Chaining
 
-The real usability gain of using C<< either >> occurs when you have a recipe
+The real usability gain of using C<< rop >> occurs when you have a recipe
 that comprises several things to do and you need to stop at the first step
 that fails.
 
@@ -105,17 +105,17 @@ in the happy path would be executed one after another but in the real path, you
 would have to check for any of them if had failed or not and proceed with
 the next or stop and report the errors.
 
-With C<< either >> you can leverage the checking to the library and just program
+With C<< rop >> you can leverage the checking to the library and just program
 the happy path functions and chain them with the C<< then >> method:
 
   use Error::ROP;
 
-  my $res = either { 40 / $something }
+  my $res = rop { 40 / $something }
     ->then(sub { $_ / 2 })
     ->then(sub { $_ * 4 })
     ->then(sub { $_ + 2 });
 
-You can always know if the computation has succed by inspecting the either,
+You can always know if the computation has succed by inspecting the rop,
 
     say $res->value if $res->is_valid;
 
@@ -174,9 +174,9 @@ CAPSiDE
 
 =head1 BUGS and SOURCE
 
-The source code is located here: L<https://github.com/paudirac/Perl-Either>
+The source code is located here: L<https://github.com/paudirac/Error-ROP>
 
-Please report bugs to: L<https://github.com/paudirac/Perl-Either/issues>
+Please report bugs to: L<https://github.com/paudirac/Error-ROP/issues>
 
 =head1 COPYRIGHT and LICENSE
 

@@ -1,18 +1,18 @@
 Error-ROP - A simple and lightweight implementation error handling library for Perl,
-inspired in the Either type.
+inspired in the Rop type.
 
 # SYNOPSIS
 
-    use Error::ROP qw(either);
+    use Error::ROP qw(rop);
 
-    my $meaning =  either { 80 / $divisor }->then(sub { $_ + 2 });
+    my $meaning =  rop { 80 / $divisor }->then(sub { $_ + 2 });
 
     say "The life meaning is " . $meaning->value if $meaning->is_valid;
     warn "Life has no meaning" if not $meaning->is_valid;
 
 # DESCRIPTION
 
-The purpose of the `either` function is to let you focus in the happy path
+The purpose of the `rop` function is to let you focus in the happy path
 and provide a nice way to treat failures without filling the code
 with `eval`s and `if`s that always serve almost the same purpose.
 
@@ -27,18 +27,18 @@ For the sake of simplicity consider the following code
 that will fail when called with a zero argument.
 
 Following the style of the [Railway Oriented Programming](https://fsharpforfunandprofit.com/rop/), you wrap the part
-that could fail in a `either` block and focus on programming the happy
+that could fail in a `rop` block and focus on programming the happy
 path:
 
     sub compute_meaning {
         my $divisor = shift;
-        return either { 80 / $divisor }
+        return rop { 80 / $divisor }
                ->then(sub { $_ + 2 });
     };
 
 This way, the `compute_meaning` function will never blow, even when
 passed in a zero argument and the computation doesn't make sense. The caller
-can check that the computation succeeded by asking the `either` result
+can check that the computation succeeded by asking the `rop` result
 object.
 
 When the computation succeeds, the `value` property contains
@@ -56,7 +56,7 @@ error.
 
 ## Chaining
 
-The real usability gain of using `either` occurs when you have a recipe
+The real usability gain of using `rop` occurs when you have a recipe
 that comprises several things to do and you need to stop at the first step
 that fails.
 
@@ -65,17 +65,17 @@ in the happy path would be executed one after another but in the real path, you
 would have to check for any of them if had failed or not and proceed with
 the next or stop and report the errors.
 
-With `either` you can leverage the checking to the library and just program
+With `rop` you can leverage the checking to the library and just program
 the happy path functions and chain them with the `then` method:
 
     use Error::ROP;
 
-    my $res = either { 40 / $something }
+    my $res = rop { 40 / $something }
       ->then(sub { $_ / 2 })
       ->then(sub { $_ * 4 })
       ->then(sub { $_ + 2 });
 
-You can always know if the computation has succed by inspecting the either,
+You can always know if the computation has succed by inspecting the rop,
 
     say $res->value if $res->is_valid;
 
@@ -134,9 +134,9 @@ CAPSiDE
 
 # BUGS and SOURCE
 
-The source code is located here: [https://github.com/paudirac/Perl-Either](https://github.com/paudirac/Perl-Either)
+The source code is located here: [https://github.com/paudirac/Error-ROP](https://github.com/paudirac/Error-ROP)
 
-Please report bugs to: [https://github.com/paudirac/Perl-Either/issues](https://github.com/paudirac/Perl-Either/issues)
+Please report bugs to: [https://github.com/paudirac/Error-ROP/issues](https://github.com/paudirac/Error-ROP/issues)
 
 # COPYRIGHT and LICENSE
 

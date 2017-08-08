@@ -1,22 +1,22 @@
 use Test::Spec;
-use Error::ROP qw(either);
+use Error::ROP qw(rop);
 
 describe "then" => sub {
 
     it "can be execute after success" => sub {
-        my $res = either { 40 / 2 };
+        my $res = rop { 40 / 2 };
         my $res2 = $res->then("Can't divide" => sub { $_ / 2 });
         ok($res2->is_valid && $res2->value == 10);
     };
 
-    it "shortcuts a failing either" => sub {
-        my $res = either { 40 / 0 };
+    it "shortcuts a failing rop" => sub {
+        my $res = rop { 40 / 0 };
         my $res2 = $res->then("Can't divide" => sub { $_ / 2 });
         ok(!$res2->is_valid);
     };
 
     it "can be chained" => sub {
-        my $res = either { 40 / 2 };
+        my $res = rop { 40 / 2 };
         my $res2 = $res->then(
             "Can't divide" => sub { $_ / 2 },
             "Can't multiply" => sub { $_ * 4 },
@@ -25,7 +25,7 @@ describe "then" => sub {
     };
 
     it "can be chained individually" => sub {
-        my $res = either { 40 / 2 };
+        my $res = rop { 40 / 2 };
         my $res2 = $res
             ->then("Can't divide" => sub { $_ / 2 })
             ->then("Can't multiply" => sub { $_ * 4 })
@@ -34,7 +34,7 @@ describe "then" => sub {
     };
 
     it "can be chained even when fails" => sub {
-        my $res = either { 40 / 2 };
+        my $res = rop { 40 / 2 };
         my $res2 = $res->then(
             "Can't divide" => sub { $_ / 0 },
             "Can't multiply" => sub { $_ * 4 },
@@ -43,7 +43,7 @@ describe "then" => sub {
     };
 
     it "default to exceptions when not given failure text" => sub {
-      my $res = either { 40 / 2 };
+      my $res = rop { 40 / 2 };
       my $res2 = $res->then(
           undef => sub { $_ / 0 },
           "Can't multiply" => sub { $_ * 4 },
@@ -52,7 +52,7 @@ describe "then" => sub {
     };
 
     it "default to exceptions when given empty failure text" => sub {
-      my $res = either { 40 / 2 };
+      my $res = rop { 40 / 2 };
       my $res2 = $res->then(
           "" => sub { $_ / 0 },
           "Can't multiply" => sub { $_ * 4 },
@@ -61,7 +61,7 @@ describe "then" => sub {
     };
  	
     it "accepts also lists" => sub {
-      my $res = either { 40 / 2 };
+      my $res = rop { 40 / 2 };
       my $res2 = $res->then(
           sub { $_ / 0 },
           sub { $_ * 4 },
@@ -70,7 +70,7 @@ describe "then" => sub {
     };
 
     it "accepts also coderefs" => sub {
-      my $res = either { 40 / 2 };
+      my $res = rop { 40 / 2 };
       my $res2 = $res
         ->then(sub { $_ / 0 })
         ->then(sub { $_ * 4 })
@@ -79,7 +79,7 @@ describe "then" => sub {
     };
 
     xit "patata" => sub {
-        my $res = either { 40 / 2 };
+        my $res = rop { 40 / 2 };
         my $res2 = $res->patata(sub { $_ / 2 });
         is($res2->value, 10);
     };
