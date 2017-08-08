@@ -8,10 +8,10 @@ test: build-image
 
 GITDIR = $(shell echo `pwd`/.git)
 shell: build-image
-	docker run --rm -it $(IMAGE) bash
+	docker run --rm -it -v $(GITDIR):/src/.git $(IMAGE) bash
 
 dist: build-image
-	docker run --rm -v $(GITDIR):/src/.git  $(IMAGE) bash -c "make -f Makefile dist && cat Error-ROP-$(VERSION).tar.gz" > Error-ROP-$(VERSION).tar.gz
+	docker run --rm -v $(GITDIR):/src/.git  $(IMAGE) bash -c "(make -f Makefile dist > /dev/null) && cat Error-ROP-$(VERSION).tar.gz" > Error-ROP-$(VERSION).tar.gz
 
 readme: build-image
 	docker run --rm $(IMAGE) make -f Makefile readme > README.md
