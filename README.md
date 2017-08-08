@@ -1,9 +1,9 @@
-Either - A simple and lightweight implementation error handling library for Perl,
+Error-ROP - A simple and lightweight implementation error handling library for Perl,
 inspired in the Either type.
 
 # SYNOPSIS
 
-    use Either qw(either);
+    use Error::ROP qw(either);
 
     my $meaning =  either { 80 / $divisor }->then(sub { $_ + 2 });
 
@@ -68,7 +68,7 @@ the next or stop and report the errors.
 With `either` you can leverage the checking to the library and just program
 the happy path functions and chain them with the `then` method:
 
-    use Either;
+    use Error::ROP;
 
     my $res = either { 40 / $something }
       ->then(sub { $_ / 2 })
@@ -104,7 +104,7 @@ functions of the type
 
     >=> :: (a -> Either b e) -> (b -> Either c e) -> (a -> Either c e)
 
-This library just uses a wrapper object (the Either instance) that has a method `then` to somehow
+This library just uses a wrapper object (the Error::ROP instance) that has a method `then` to somehow
 compose other operations. This is a much less flexible approach but it works and is easy to understand.
 The two leaves of the type are accessible via the instance's `value` and `failure` getters.
 
@@ -128,9 +128,9 @@ the source into the image and run the tests.
 
 # AUTHOR
 
-Pau Cervera i Badia
+[Pau Cervera i Badia](https://metacpan.org/pod/pau.cervera@capside.com)
+
 CAPSiDE
-pau.cervera@capside.com
 
 # BUGS and SOURCE
 

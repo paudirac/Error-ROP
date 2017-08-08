@@ -1,5 +1,5 @@
 use Test::Spec;
-use Either qw/success failure/;
+use Error::ROP qw/success failure/;
 
 sub always_succeeds {
     return success(shift);
@@ -30,7 +30,7 @@ sub other_calc {
     return $first_step;
 }
 
-describe "Either class" => sub {
+describe "Error::ROP class" => sub {
     it "wraps valid stuff" => sub {
         my $res = always_succeeds(42);
         ok($res->is_valid);

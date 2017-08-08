@@ -1,5 +1,5 @@
 use Test::Spec;
-use Either qw(either);
+use Error::ROP qw(either);
 
 describe "a block" => sub {
     it "can succeed" => sub {

@@ -1,4 +1,4 @@
-package Either::Imp;
+package Error::ROP::Imp;
 use Moose;
 
 has value => (is => 'ro', required => 0, default => undef);
@@ -23,9 +23,9 @@ sub _then_hash {
             };
             if ($@) {
                 my $msg = length $err > 0 && $err ne 'undef' ? $err : $@;
-                return Either::Imp->new(failure => $msg);
+                return Error::ROP::Imp->new(failure => $msg);
             }
-            $either = Either::Imp->new(value => $res);
+            $either = Error::ROP::Imp->new(value => $res);
         }
     }
 
@@ -45,9 +45,9 @@ sub _then_list {
                 $fn->($_);
             };
             if ($@) {
-                return Either::Imp->new(failure => $@);
+                return Error::ROP::Imp->new(failure => $@);
             }
-            $either = Either::Imp->new(value => $res);
+            $either = Error::ROP::Imp->new(value => $res);
         }
     }
 
@@ -63,9 +63,9 @@ sub _wrap_call_with_dollar {
             $fn->($_);
         };
         if ($@) {
-            return Either::Imp->new(failure => $@);
+            return Error::ROP::Imp->new(failure => $@);
         }
-        $either = Either::Imp->new(value => $res);
+        $either = Error::ROP::Imp->new(value => $res);
     }
 }
 

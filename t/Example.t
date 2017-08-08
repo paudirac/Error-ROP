@@ -1,8 +1,8 @@
 use Test::Spec;
-use Either qw(either);
+use Error::ROP qw(either);
 
 package MooseSut {
-  use Either qw(either);
+  use Error::ROP qw(either);
   use Moose;
 
   has service => (is => 'ro');

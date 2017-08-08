@@ -1,16 +1,18 @@
-package Either;
-use Either::Imp;
+# ABSTRACT: Error-ROP - A simple and lightweight implementation error handling library for Perl,
+# inspired in the Either type.
+package Error::ROP;
+use Error::ROP::Imp;
 use Exporter qw/import/;
 
 our @EXPORT_OK = qw/success failure either bind/;
 our $VERSION = '0.01';
 
 sub success {
-    return Either::Imp->new(value => shift);
+    return Error::ROP::Imp->new(value => shift);
 }
 
 sub failure {
-    return Either::Imp->new(failure => shift);
+    return Error::ROP::Imp->new(failure => shift);
 }
 
 sub either (&) {
@@ -35,12 +37,12 @@ sub bind {
 =encoding utf8
 =head1 NAME
 
-Either - A simple and lightweight implementation error handling library for Perl,
+Error-ROP - A simple and lightweight implementation error handling library for Perl,
 inspired in the Either type.
 
 =head1 SYNOPSIS
 
-    use Either qw(either);
+    use Error::ROP qw(either);
 
     my $meaning =  either { 80 / $divisor }->then(sub { $_ + 2 });
 
@@ -106,7 +108,7 @@ the next or stop and report the errors.
 With C<< either >> you can leverage the checking to the library and just program
 the happy path functions and chain them with the C<< then >> method:
 
-  use Either;
+  use Error::ROP;
 
   my $res = either { 40 / $something }
     ->then(sub { $_ / 2 })
@@ -142,7 +144,7 @@ functions of the type
 
   >=> :: (a -> Either b e) -> (b -> Either c e) -> (a -> Either c e)
 
-This library just uses a wrapper object (the Either instance) that has a method C<then> to somehow
+This library just uses a wrapper object (the Error::ROP instance) that has a method C<then> to somehow
 compose other operations. This is a much less flexible approach but it works and is easy to understand.
 The two leaves of the type are accessible via the instance's C<value> and C<failure> getters.
 
@@ -166,9 +168,9 @@ the source into the image and run the tests.
 
 =head1 AUTHOR
 
-Pau Cervera i Badia
+L<Pau Cervera i Badia|pau.cervera@capside.com>
+
 CAPSiDE
-pau.cervera@capside.com
 
 =head1 BUGS and SOURCE
 

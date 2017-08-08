@@ -6,11 +6,12 @@ build-image:
 test: build-image
 	docker run --rm $(IMAGE) make -f Makefile test
 
+GITDIR = $(shell echo `pwd`/.git)
 shell: build-image
 	docker run --rm -it $(IMAGE) bash
 
 dist: build-image
-	docker run --rm $(IMAGE) make -f Makefile dist && cat Either-$(VERSION).tar.gz > Either-$(VERSION).tar.gz
+	docker run --rm -v $(GITDIR):/src/.git  $(IMAGE) bash -c "make -f Makefile dist && cat Error-ROP-$(VERSION).tar.gz" > Error-ROP-$(VERSION).tar.gz
 
 readme: build-image
 	docker run --rm $(IMAGE) make -f Makefile readme > README.md
