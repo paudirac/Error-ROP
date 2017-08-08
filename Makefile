@@ -42,6 +42,6 @@ devel-deps:
 readme:
 	@carton exec perl -MPod::Markdown -e 'Pod::Markdown->new->filter(@ARGV)' lib/Error/ROP.pm
 
-dist: readme
+dist: 
 	carton exec dzil smoke
 	carton exec dzil build
