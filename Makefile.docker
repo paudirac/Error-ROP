@@ -1,5 +1,5 @@
 IMAGE=either:latest
-VERSION=0.01
+VERSION=0.02
 build-image:
 	docker build -t $(IMAGE) .
 
