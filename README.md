@@ -23,7 +23,7 @@ For the sake of simplicity consider the following code
 
     sub compute_meaning {
         my $divisor = shift;
-        return 2 + 80 / $divisor;
+        return (80 / $divisor) + 2;
     };
 
 that will fail when called with a zero argument.
