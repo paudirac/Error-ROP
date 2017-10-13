@@ -9,7 +9,7 @@ inspired in the Rop type.
 
     my $meaning =  rop { 80 / $divisor }->then(sub { $_ + 2 });
 
-    say "The life meaning is " . $meaning->value if $meaning->is_valid;
+    say "The meaning of life is " . $meaning->value if $meaning->is_valid;
     warn "Life has no meaning" if not $meaning->is_valid;
 
 # DESCRIPTION
